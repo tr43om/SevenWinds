@@ -32,16 +32,16 @@ const darkTheme = createTheme({
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <QueryProvider>
-      <MuiThemeProvider theme={darkTheme}>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <MuiThemeProvider theme={darkTheme}>
           <GlobalStyle />
           <Header />
           <S.Content>
             <Sidebar />
             {children}
           </S.Content>
-        </ThemeProvider>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+      </ThemeProvider>
     </QueryProvider>
   );
 };
