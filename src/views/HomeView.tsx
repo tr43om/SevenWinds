@@ -1,4 +1,4 @@
-import { rowModel, rowQueries, TreeRowResponse } from "@/entities/row";
+import { rowModel, rowQueries, rowTypes } from "@/entities/row";
 import { columns } from "@/widgets/DataTable/DataTable.columns";
 import { queryClient } from "@/shared/react-query";
 import { FC } from "react";
@@ -10,7 +10,7 @@ const HomeView: FC<HomeViewProps> = ({}) => {
   // Fetch list
   rowQueries.useRowsQuery();
 
-  const list = queryClient.getQueryData<TreeRowResponse[]>(
+  const list = queryClient.getQueryData<rowTypes.TreeRowResponse[]>(
     rowModel.QUERY_KEYS.root()
   );
   const state = queryClient.getQueryState(rowModel.QUERY_KEYS.root());

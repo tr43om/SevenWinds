@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import { rowTypes } from "./utils";
+import { RowId, RowParentId } from "./types";
 
 type ModeType = "editing" | "creation" | "none";
 type Ids = {
-  rid: rowTypes.RowId | undefined;
-  parentId: rowTypes.RowParentId | undefined;
+  rid: RowId | undefined;
+  parentId: RowParentId | undefined;
 };
 
 type Store = {

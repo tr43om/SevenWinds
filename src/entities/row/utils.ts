@@ -1,12 +1,12 @@
-import { rowModel, rowTypes } from "@/entities/row";
 import { Row, Table } from "@tanstack/react-table";
+import { RowId, RowResponse, TreeRowResponse } from "./types";
 
 // Utility function to delete a row from a nested structure
 const deleteRow = (
-  rows: rowTypes.TreeRowResponse[],
-  rowIdToDelete: rowTypes.RowId
-): rowTypes.TreeRowResponse[] => {
-  return rows.reduce<rowTypes.TreeRowResponse[]>((acc, row) => {
+  rows: TreeRowResponse[],
+  rowIdToDelete: RowId
+): TreeRowResponse[] => {
+  return rows.reduce<TreeRowResponse[]>((acc, row) => {
     if (row.id === rowIdToDelete) {
       // If the current row is the one to delete, skip it
       return acc;
@@ -26,10 +26,10 @@ const deleteRow = (
 };
 
 function createOutlayBlankRow(
-  tree: rowTypes.TreeRowResponse[],
-  parentId: rowTypes.RowId | null
-): rowTypes.TreeRowResponse[] {
-  const blank: rowTypes.TreeRowResponse = {
+  tree: TreeRowResponse[],
+  parentId: RowId | null
+): TreeRowResponse[] {
+  const blank: TreeRowResponse = {
     id: "creation",
     rowName: "",
     child: [],
@@ -56,9 +56,9 @@ function createOutlayBlankRow(
 }
 
 function searchNode(
-  tree: rowTypes.TreeRowResponse[],
-  id: rowTypes.RowId | null
-): rowTypes.TreeRowResponse | null {
+  tree: TreeRowResponse[],
+  id: RowId | null
+): TreeRowResponse | null {
   const stack = [...tree];
 
   while (stack.length) {
@@ -72,10 +72,10 @@ function searchNode(
 
 // Utility function to insert a new row into a nested structure
 const insertRow = (
-  rows: rowTypes.TreeRowResponse[],
-  rowToInsert: rowTypes.TreeRowResponse,
-  parentId: rowTypes.RowId | null
-): rowTypes.TreeRowResponse[] => {
+  rows: TreeRowResponse[],
+  rowToInsert: TreeRowResponse,
+  parentId: RowId | null
+): TreeRowResponse[] => {
   return rows.map((row) => {
     if (row.id === parentId) {
       return {
@@ -96,10 +96,10 @@ const insertRow = (
 
 // Function to update a single node within a tree using the searchNode method
 const updateNode = (
-  tree: rowTypes.TreeRowResponse[],
-  id: rowTypes.RowId,
-  updates: Partial<rowTypes.TreeRowResponse>
-): rowTypes.TreeRowResponse[] => {
+  tree: TreeRowResponse[],
+  id: RowId,
+  updates: Partial<TreeRowResponse>
+): TreeRowResponse[] => {
   const node = searchNode(tree, id);
   if (node) {
     Object.assign(node, updates);
@@ -109,10 +109,10 @@ const updateNode = (
 
 // Function to apply updates for current and changed nodes
 const applyUpdates = (
-  tree: rowTypes.TreeRowResponse[],
-  current: rowTypes.RowResponse,
-  changed: rowTypes.RowResponse[]
-): rowTypes.TreeRowResponse[] => {
+  tree: TreeRowResponse[],
+  current: RowResponse,
+  changed: RowResponse[]
+): TreeRowResponse[] => {
   // Update the current node
   let updatedTree = updateNode(tree, current.id, current);
 
@@ -125,8 +125,8 @@ const applyUpdates = (
 };
 
 const getParentIndex = (
-  table: Table<rowTypes.TreeRowResponse>,
-  row: Row<rowTypes.TreeRowResponse>
+  table: Table<TreeRowResponse>,
+  row: Row<TreeRowResponse>
 ) =>
   table
     .getRowModel()
@@ -137,9 +137,7 @@ const getParentIndex = (
 export {
   applyUpdates,
   insertRow,
-  rowModel,
   updateNode,
-  rowTypes,
   searchNode,
   deleteRow,
   getParentIndex,

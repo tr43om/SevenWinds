@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { rowTypes } from ".";
+import { TreeRowResponse } from "./types";
 
 const RowsSchema = z.object({
   id: z.number().min(1),
@@ -23,11 +23,9 @@ const RowResponse = z.object({
   total: z.number(),
 });
 
-const TreeRowResponse: z.ZodType<rowTypes.TreeRowResponse> = RowResponse.extend(
-  {
-    child: z.lazy(() => TreeRowResponse.array()),
-  }
-);
+const TreeRowResponse: z.ZodType<TreeRowResponse> = RowResponse.extend({
+  child: z.lazy(() => TreeRowResponse.array()),
+});
 
 const RowParentId = RowId.nullable();
 

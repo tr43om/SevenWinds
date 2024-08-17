@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createOutlayBlankRow } from "@/entities/row/utils";
-import { RowId, rowModel, rowTypes } from "@/entities/row";
+import { rowModel, rowTypes } from "@/entities/row";
 import { useTableStore } from "@/entities/row/store";
 
 type AddEmptyRowType = {

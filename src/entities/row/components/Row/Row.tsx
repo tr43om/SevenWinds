@@ -1,8 +1,7 @@
-import { TreeRowResponse } from "@/entities/row";
+import { rowTypes } from "@/entities/row";
 
-import { Row, Table } from "@tanstack/react-table";
+import { Row } from "@tanstack/react-table";
 import { useTableStore } from "@/entities/row/store";
-import { useFormContext } from "react-hook-form";
 import * as S from "./Row.styled";
 import { Cell } from "../Cell";
 
@@ -18,11 +17,10 @@ const Row = ({
   index,
   parentIndex,
   isLoading = false,
-}: RowProps<TreeRowResponse>) => {
+}: RowProps<rowTypes.TreeRowResponse>) => {
   const rid = row.original.id;
-  const form = useFormContext();
 
-  const { setEditableRowIds, setMode, editableRowIds, mode } = useTableStore();
+  const { setEditableRowIds, setMode } = useTableStore();
 
   return (
     <S.TableRow
