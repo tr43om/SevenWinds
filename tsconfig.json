@@ -4,7 +4,7 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "module": "esnext",
+    "module": "ESNext",
     "target": "es6",
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
@@ -12,6 +12,12 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "baseUrl": "./"
+    "baseUrl": "src",
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
+    "paths": {
+      "@/*": ["*"],
+      "@/styles/*": ["./src/app/styles/*"],
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
+    }
   }
 }
