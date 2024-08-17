@@ -1,4 +1,3 @@
-import { LucideTrash } from "lucide-react";
 import styled from "styled-components";
 
 const Cell = styled.td<{ $depth: number; $disabled: boolean }>`

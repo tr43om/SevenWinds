@@ -8,6 +8,8 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 import { fileURLToPath } from "url";
 import Dotenv from "dotenv-webpack";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import CircularDependencyPlugin from "circular-dependency-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
 const IS_DEVELOPMENT = process.env.NODE_ENV !== "production";
 const IS_SERVE = process.env.WEBPACK_SERVE ?? false;
@@ -22,8 +24,17 @@ const PATH_OUTPUT_FOLDER = join(__dirname, "build");
 export default () => {
   const config = {
     mode: IS_DEVELOPMENT ? "development" : "production",
+
     devtool: IS_DEVELOPMENT ? "source-map" : undefined,
     entry: PATH_ENTRY,
+    stats: {
+      all: false,
+      errors: true,
+      warnings: true,
+      timings: true,
+      modules: true,
+      moduleTrace: true,
+    },
     output: {
       path: PATH_OUTPUT_FOLDER,
       filename: "[name].[fullhash:8].js",
@@ -34,6 +45,10 @@ export default () => {
       extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss", ".sass"],
       fallback: { process: false },
       plugins: [new TsconfigPathsPlugin()],
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+        "@mui/styled-engine": "@mui/styled-engine-sc",
+      },
 
       modules: [__dirname, "node_modules"],
     },
@@ -44,11 +59,13 @@ export default () => {
       port: 3000,
       historyApiFallback: true,
     },
+
     module: {
       rules: [
         {
-          test: /\.[jt]sx?$/,
+          test: /\.(ts|tsx)$/,
           use: ["ts-loader"],
+          exclude: /node_modules/,
         },
         {
           test: /\.s?[ca]ss$/i,
@@ -66,6 +83,19 @@ export default () => {
       ],
     },
     plugins: [
+      new BundleAnalyzerPlugin(),
+      new CircularDependencyPlugin({
+        // Exclude detection of files based on a RegExp
+        exclude: /a\.js|node_modules/,
+        // Include specific types of files
+        include: /src/,
+        // Add errors to webpack instead of warnings
+        failOnError: true,
+        // Allow async cycles
+        allowAsyncCycles: false,
+        // Set the maximum depth of cycles
+        cwd: process.cwd(),
+      }),
       new CleanWebpackPlugin(),
       new Dotenv(),
       new HtmlWebpackPlugin({

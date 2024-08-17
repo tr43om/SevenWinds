@@ -1,13 +1,11 @@
 import { Row } from "@tanstack/react-table";
-import { FileIcon, LucideFile, LucideTrash } from "lucide-react";
 import { FC } from "react";
-import styled from "styled-components";
-import { rowTypes, TreeRowResponse } from "../..";
-import { useRowsDeleteMutation } from "../../queries";
-import { useEmptyRowTrigger } from "../../hooks/useEmptyRowTrigger";
-import { useTableStore } from "../../store";
+import { rowTypes } from "@/entities/row";
+import { useRowsDeleteMutation } from "@/entities/row/queries";
+import { useEmptyRowTrigger } from "@/entities/row/hooks";
+import { useTableStore } from "@/entities/row/store";
 import * as S from "./Controls.styled";
-import { Delete, DeleteOutline, TextSnippet } from "@mui/icons-material";
+import { Delete, TextSnippet } from "@mui/icons-material";
 
 interface ControlsProps<TData> {
   row: Row<rowTypes.TreeRowResponse>;
