@@ -83,19 +83,6 @@ export default () => {
       ],
     },
     plugins: [
-      new BundleAnalyzerPlugin(),
-      new CircularDependencyPlugin({
-        // Exclude detection of files based on a RegExp
-        exclude: /a\.js|node_modules/,
-        // Include specific types of files
-        include: /src/,
-        // Add errors to webpack instead of warnings
-        failOnError: true,
-        // Allow async cycles
-        allowAsyncCycles: false,
-        // Set the maximum depth of cycles
-        cwd: process.cwd(),
-      }),
       new CleanWebpackPlugin(),
       new Dotenv(),
       new HtmlWebpackPlugin({
